@@ -15,7 +15,7 @@ matrix:
     - os: osx
       osx_image: xcode11
       env:
-        - MATRIX_EVAL="brew link gmp"
+        - MATRIX_EVAL="brew link gmp && export GMP_LIBRARY=/usr/local/Cellar/gmp/6.1.2_2"
 
 before_install:
   - eval "${MATRIX_EVAL}"
@@ -24,10 +24,12 @@ script:
   - cmake .
   - cmake --build . --target benchtool_cpp
 
+before_deploy:
+  - export benchtool_cpp_file=$(ls *benchtool_cpp*)
 deploy:
   provider: releases
   api_key: $GITHUB_KEY
-  file: "benchtool_cpp"
+  file: "${benchtool_cpp_file}"
   skip_cleanup: true
   overwrite: true
   draft: true
