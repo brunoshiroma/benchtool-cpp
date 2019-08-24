@@ -1,41 +1,26 @@
-# Find GMP (GNU multi precision math library)
-#
-#  GMP_FOUND       - True if GMP was found
-#  GMP_INCLUDE_DIR - Path to GMP's include directory.
-#  GMP_LIBRARY     - Path to libgmp.
-#  GMPXX_LIBRARY   - Path to libgmpxx.
-#  GMP_LIBRARIES   - Path to GMP's libraries.
+# Locate the gmp library and its includes
+find_path(GMP_INCLUDE_DIR NAMES gmp.h)
+find_library(GMP_LIBRARY gmp)
+find_library(GMP_LIBRARY gmpxx)
+if(GMP_LIBRARY MATCHES ${CMAKE_SHARED_LIBRARY_SUFFIX})
+  set(gmp_library_type SHARED)
+else()
+  set(gmp_library_type STATIC)
+endif()
 
-include(FindPackageHandleStandardArgs)
+message(STATUS "GMP: ${GMP_LIBRARY}, ${GMP_INCLUDE_DIR}")
 
-if(GMP_INCLUDE_DIR AND GMP_LIBRARY AND GMPXX_LIBRARY)
+add_library(gmp ${gmp_library_type} IMPORTED)
+add_library(gmpxx ${gmp_library_type} IMPORTED)
 
-    # Already found, don't search again
-    set(GMP_FOUND TRUE)
+set_target_properties(
+  gmp PROPERTIES
+  IMPORTED_LOCATION ${GMP_LIBRARY}
+  INTERFACE_INCLUDE_DIRECTORIES ${GMP_INCLUDE_DIR}
+)
 
-else(GMP_INCLUDE_DIR AND GMP_LIBRARY AND GMPXX_LIBRARY)
-
-    find_path(GMP_INCLUDE_DIR gmpxx.h DOC "Path to GMP's include directory")
-
-    find_library(GMP_LIBRARY NAMES gmp DOC "Path to GMP's library")
-
-    find_library(GMPXX_LIBRARY NAMES gmpxx DOC "Path to GMP's C++ library")
-
-    FIND_PACKAGE_HANDLE_STANDARD_ARGS(GMP DEFAULT_MSG
-            GMP_INCLUDE_DIR
-            GMP_LIBRARY
-            GMPXX_LIBRARY
-            )
-
-    set(GMP_LIBRARIES ${GMP_LIBRARY} ${GMPXX_LIBRARY})
-
-    set(GMP_LIBRARIES ${GMP_LIBRARIES} CACHE STRING "Paths to GMP's libraries")
-
-    mark_as_advanced(
-            GMP_INCLUDE_DIR
-            GMP_LIBRARY
-            GMPXX_LIBRARY
-            GMP_LIBRARIES
-    )
-
-endif(GMP_INCLUDE_DIR AND GMP_LIBRARY AND GMPXX_LIBRARY)
+set_target_properties(
+  gmpxx PROPERTIES
+  IMPORTED_LOCATION ${GMP_LIBRARY}
+  INTERFACE_INCLUDE_DIRECTORIES ${GMP_INCLUDE_DIR}
+)
