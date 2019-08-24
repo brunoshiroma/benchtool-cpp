@@ -1,0 +1,11 @@
+language: cpp
+
+#uses ubuntu 18.04 LTS for build
+dist: bionic
+
+compiler:
+  - gcc
+
+before_install:
+  - sudo apt-get update
+  - sudo apt-get install libgmp3-dev
