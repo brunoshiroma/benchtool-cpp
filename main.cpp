@@ -1,6 +1,4 @@
 #include <iostream>
-#include <gmp.h>
-#include <gmpxx.h>
 #include <chrono>
 #include "SimpleFibonacciBench.h"
 #include "SimpleLoopFibonacciBench.h"
