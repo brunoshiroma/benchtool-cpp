@@ -2,32 +2,53 @@
 #include <gmp.h>
 #include <gmpxx.h>
 #include <chrono>
+#include "SimpleFibonacciBench.h"
+#include "SimpleLoopFibonacciBench.h"
+#include <stdlib.h>
+#include <sys/resource.h>
 
-int main() {
+enum bench_type{
+    recursive = 2,
+    loop = 1
+};
 
-    auto started = std::chrono::high_resolution_clock::now();
+int main(int argc, char **argv) {
 
-    mpz_t a,b,c;
+    Bench *bench = NULL;
+    bench_type type = loop;
+    char* number = "99999";
 
-    mpz_init(a);
-    mpz_init(b);
-    mpz_init(c);
-
-    mpz_set_str(a, "1", 10);
-    mpz_set_str(b, "2", 10);
-    mpz_set_str(b, "0", 10);
-
-    int interation = 99999;
-
-    for(int i = 0; i < interation; i++){
-        mpz_add(c, a, b);
-        mpz_set(a, b);
-        mpz_set(b, c);
+    if(argc >= 2){
+        char* benchType = argv[1];
+        type = static_cast<bench_type>(atol(benchType));
     }
-    auto done = std::chrono::high_resolution_clock::now();
+    if(argc >= 3){
+        number = argv[2];
+    }
 
-    std::cout << "SUM \na " << a << " \nb " << b << " \nc " << c;
+    switch(type){
+        case recursive:{
+            //need to change stack size...
+            rlim_t kStackSize = 1024 * 1024 * 1024;//1GB stack size !...
+            struct rlimit rl;
 
-    std::cout << "\n" << std::chrono::duration_cast<std::chrono::milliseconds>(done-started).count();
+            rl.rlim_cur = kStackSize;
+
+            setrlimit(RLIMIT_STACK, &rl);
+            bench = new SimpleFibonacciBench();
+        }
+            break;
+        case loop:{
+            bench = new SimpleLoopFibonacciBench();
+        }
+            break;
+    }
+
+
+
+    auto result = bench->run(&number);
+
+    std::cout << "Result " << result.result() <<  "\n" << result.getRunningMilliseconds();
+
     return 0;
 }
