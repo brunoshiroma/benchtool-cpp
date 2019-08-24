@@ -17,5 +17,6 @@ script:
 deploy:
   provider: releases
   api_key: $GITHUB_KEY
-  file: "./CMakeFiles/benchtool_cpp.dir/benchtool_cpp"
+  file: "benchtool_cpp"
   skip_cleanup: true
+  overwrite: true
