@@ -12,4 +12,4 @@ before_install:
 
 script:
   - cmake .
-  - cmake --build cmake-build-debug --target benchtool_cpp
+  - cmake --build benchtool-cpp --target benchtool_cpp
