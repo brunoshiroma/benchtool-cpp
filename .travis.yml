@@ -7,6 +7,11 @@ os:
 compiler:
   - gcc
 
+addons:
+  homebrew:
+    packages:
+      - gmp
+
 matrix:
   include:
     - os: linux
