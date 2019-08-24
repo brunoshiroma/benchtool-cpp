@@ -1,14 +1,18 @@
 language: cpp
 
-#uses ubuntu 18.04 LTS for build
-dist: bionic
+os:
+  - linux
+  - osx
 
 compiler:
   - gcc
 
-before_install:
-  - sudo apt-get update
-  - sudo apt-get install libgmp3-dev
+matrix:
+  include:
+    - os: linux
+      dist: bionic
+    - os: osx
+      osx_image: xcode11
 
 script:
   - cmake .
