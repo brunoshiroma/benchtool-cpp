@@ -13,3 +13,9 @@ before_install:
 script:
   - cmake .
   - cmake --build . --target benchtool_cpp
+
+deploy:
+  provider: releases
+  api_key: $GITHUB_KEY
+  file: "./CMakeFiles/benchtool_cpp.dir/benchtool_cpp"
+  skip_cleanup: true
