@@ -16,6 +16,9 @@ matrix:
       osx_image: xcode11
       env:
         - MATRIX_EVAL="brew link gmp && export GMP_LIBRARY=/usr/local/Cellar/gmp/6.1.2_2"
+    - os: windows
+      env:
+        - MATRIX_EVAL="wget https://gmplib.org/download/gmp/gmp-6.1.2.tar.lz && 7zip e gmp-6.1.2.tar.lz"
 
 before_install:
   - eval "${MATRIX_EVAL}"
