@@ -9,3 +9,7 @@ compiler:
 before_install:
   - sudo apt-get update
   - sudo apt-get install libgmp3-dev
+
+script:
+  - cmake .
+  - cmake --build cmake-build-debug --target benchtool_cpp
