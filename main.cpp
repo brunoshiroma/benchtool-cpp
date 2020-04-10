@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
 
     auto result = bench->run(&number);
 
-    std::cout << "Result " << result.result() <<  "\n" << result.getRunningMilliseconds();
+    std::cout << result.getRunningMilliseconds() << " " << result.result() <<  "\n";
 
     return 0;
 }
