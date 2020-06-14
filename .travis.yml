@@ -27,7 +27,7 @@ jobs:
       script:
         - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker buildx build --platform linux/amd64 -t brunoshiroma/benchtool-cpp:amd64-latest --push .
-	- docker buildx build --platform linux/386 -t brunoshiroma/benchtool-cpp:386-latest --push .
+        - docker buildx build --platform linux/386 -t brunoshiroma/benchtool-cpp:386-latest --push .
         - docker buildx build --platform linux/arm64/v8 -t brunoshiroma/benchtool-cpp:aarch64-latest --push .
         - docker buildx build --platform linux/arm/v7 -t brunoshiroma/benchtool-cpp:armv7-latest --push .
         - docker manifest create brunoshiroma/benchtool-cpp:latest brunoshiroma/benchtool-cpp:amd64-latest brunoshiroma/benchtool-cpp:aarch64-latest brunoshiroma/benchtool-cpp:armv7-latest brunoshiroma/benchtool-cpp:386-latest
