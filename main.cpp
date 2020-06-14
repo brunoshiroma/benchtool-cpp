@@ -27,7 +27,7 @@ int main(int argc, char **argv) {
     switch(type){
         case recursive:{
             //need to change stack size...
-            rlim_t kStackSize = 1024 * 1024 * 1024;//1GB stack size !...
+            rlim_t kStackSize = 16 * std::stoi(number);
             struct rlimit rl;
 
             rl.rlim_cur = kStackSize;
