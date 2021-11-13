@@ -1,11 +1,11 @@
-FROM alpine as buildbase
+FROM debian:11-slim as buildbase
 
-RUN apk update
-RUN apk add gcc
-RUN apk add g++
-RUN apk add gmp-dev
-RUN apk add make
-RUN apk add cmake
+RUN apt-get update
+RUN apt-get install gcc -y
+RUN apt-get install g++ -y
+RUN apt-get install libgmp-dev -y
+RUN apt-get install make -y
+RUN apt-get install cmake -y
 
 WORKDIR /bench
 
@@ -15,11 +15,10 @@ RUN cmake .
 
 RUN cmake --build . --target benchtool_cpp
 
-FROM alpine as runtime
+FROM debian:11-slim as runtime
 
-RUN apk update
-RUN apk add gmp
-RUN apk add libstdc++
+RUN apt-get update
+RUN apt-get install libgmp10 -y
 
 WORKDIR /bench
 

@@ -3,7 +3,7 @@ version: 2.1
 jobs:
   build-arm:
     machine:
-      image: cimg/base:stable-20.04
+      image: ubuntu-2004:202101-01
     resource_class: arm.medium
     steps:
       - checkout
@@ -13,7 +13,7 @@ jobs:
 
   build-amd64:
     machine:
-      image: cimg/base:stable-20.04
+      image: ubuntu-2004:202101-01
     resource_class: medium
     steps:
       - checkout
@@ -23,7 +23,7 @@ jobs:
 
   push-multi-arch-meta:
     machine:
-      image: cimg/base:stable-20.04
+      image: ubuntu-2004:202101-01
     resource_class: small
     steps:
       - run:  echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
